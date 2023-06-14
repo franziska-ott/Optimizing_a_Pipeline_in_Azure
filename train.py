@@ -61,8 +61,12 @@ def main():
     model = LogisticRegression(C=args.C, max_iter=args.max_iter).fit(x_train, y_train)
 
     accuracy = model.score(x_test, y_test)
-    joblib.dump(model, f"./training/model_{args.max_iter}_{args.C}.pkl")
     run.log("Accuracy", np.float(accuracy))
+
+    model_filename = f"model_{args.max_iter}_{args.C}.pkl"
+    joblib.dump(value=model, filename=model_filename)
+
+    run.upload_file(model_filename, model_filename)
 
 if __name__ == '__main__':
     main()
